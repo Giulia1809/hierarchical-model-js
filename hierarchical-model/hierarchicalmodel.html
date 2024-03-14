@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .button {
+            background-color: rgb(141, 6, 6);
+            border: none;
+            color: white;
+            padding: 20px 42px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+#version 300 es
+
+in vec4 aPosition;
+in vec2 aTexCoord;
+
+out vec2 vTexCoord;
+
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+
+void main()
+{
+    gl_Position = projectionMatrix * modelViewMatrix * aPosition;
+    vTexCoord = aTexCoord;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+#version 300 es
+
+precision mediump float;
+in vec2 vTexCoord;
+uniform sampler2D uTextureMap1;
+uniform sampler2D uTextureMap2;
+uniform sampler2D uTextureMap3;
+uniform sampler2D uTextureMap4;
+
+uniform bool textBody;
+uniform bool textLeaf;
+uniform bool textLog;
+
+out vec4 fColor;
+
+void main()
+{
+  if (textBody) {
+    fColor = vec4(0.5, 0.2, 0.0, 1.0)*texture(uTextureMap1, vTexCoord);
+  } else {
+    fColor = vec4(0.9, 0.8, 0.8, 1.0)*texture(uTextureMap2, vTexCoord);
+  }
+  
+  if (textLeaf) {
+    fColor = vec4(0.0, 1.0, 0.6, 1.0)*texture(uTextureMap3, vTexCoord);
+  }
+  if (textLog) {
+    fColor =  vec4(1.0, 0.7, 0.0, 1.0)*texture(uTextureMap4, vTexCoord);
+  }
+}
+</script>
+
+<script type="text/javascript" src="../Common/InitShaders.js"></script>
+<script type="text/javascript" src="../Common/MVnew.js"></script>
+<script type="text/javascript" src="Homework2.js"></script>
+
+<div>
+torso angle -180 <input id="slider0" type="range"
+ min="-180" max="180" step="10" value="120"
+  />
+ 180
+</div><br/>
+<div>
+head2 angle -180 <input id="slider10" type="range"
+ min="-180" max="180" step="10" value="0"
+  />
+ 180
+</div><br/>
+
+<div>
+head1 angle -180 <input id="slider1" type="range"
+ min="-180" max="180" step="10" value="0"
+  />
+ 180
+</div><br/>
+
+<div id="slider2">
+left upper arm angle -180 <input id="slider2" type="range"
+ min="-180" max="180" step="10" value="110"
+  />
+ 180
+</div><br/>
+<div>
+left lower arm angle -180 <input id="slider3" type="range"
+ min="-180" max="180" step="10" value="20"
+  />
+ 180
+</div><br/>
+<div>
+right upper arm angle -180 <input id="slider4" type="range"
+ min="-180" max="180" step="10" value="70"
+  />
+ 180
+</div><br/>
+<div>
+right lower arm angle -180 <input id="slider5" type="range"
+ min="-180" max="180" step="10" value="-20"
+  />
+ 180
+</div><br/>
+<div>
+left upper leg angle -180 <input id="slider6" type="range"
+ min="-180" max="180" step="10" value="110"
+  />
+ 180
+</div><br/>
+<div>
+left lower leg angle -180 <input id="slider7" type="range"
+ min="-180" max="180" step="10" value="20"
+  />
+ 180
+</div><br/>
+<div>
+right upper leg angle -180 <input id="slider8" type="range"
+ min="-180" max="180" step="10" value="70"
+  />
+ 180
+</div><br/>
+
+<div>
+right lower leg angle -180 <input id="slider9" type="range"
+ min="-180" max="180" step="10" value="20"
+  />
+ 180
+</div><br/>
+<div>
+<button class="button" id="StartAnimation">Start Animation</button>
+
+
+<body>
+<canvas id="gl-canvas" width="512"" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+<img id = "BODYTEXTURE" src = "BODYTEXTURE.jpg" hidden></img>
+<img id = "HEADTEXTURE" src = "HEADTEXTURE.jpg" hidden></img>
+<img id = "LEAFTEXTURE" src = "LEAFTEXTURE.jpg" hidden></img>
+<img id = "LOGTEXTURE" src = "LOGTEXTURE.jpg" hidden></img>
+</body>
+</html>
